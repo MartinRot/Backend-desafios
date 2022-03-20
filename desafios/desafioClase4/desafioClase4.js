@@ -103,10 +103,30 @@ class Container{
             return contenidoNuevo;
             
         } catch(error) {
-            throw new Error(error)
+            throw new Error(error);
         }
     }
 
+    //Metodo save
+    async save(nuevoElemento) {
+
+        try{
+
+            //leer el contenido
+            const contenido = await this.leer()
+            //parsearlo a objeto
+            const contenidoParseado = JSON.parse(contenido)
+
+            //añadir a la lista de objetos un objeto mas con .push(...) 
+            contenidoParseado.push(nuevoElemento)
+
+            return contenidoParseado
+
+        } catch(error) {
+            throw new Error(error);
+        }
+
+    } 
 
 } 
 
@@ -114,10 +134,18 @@ const main = async () => {
     //contenedorProductos.leerPorId(1)
 
     //console.log(await contenedorProductos.leerPorId(2));
-    console.log(await contenedorProductos.borrarPorId(1));
+    //console.log(await contenedorProductos.borrarPorId(1));
+
+    console.log(await contenedorProductos.save( 
+        {
+            title: 'Nuevo elemento agregado',
+            price: 9995.67,
+            thumbnail: 'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png',
+            id: 3
+        }
+    ))
 
 };
-
 
 let contenedor = new Container("./texto.txt") //Creo un nuevo contenedor 
 
@@ -125,6 +153,7 @@ let contenedor = new Container("./texto.txt") //Creo un nuevo contenedor
 const contenedorProductos = new Container("./productos.txt"); //Creo el nuevo contenedor 
 // contenedorProductos.escribir(JSON.stringify(productos)) //Le asigno los productos
 
+
+
+
 main();
-
-
