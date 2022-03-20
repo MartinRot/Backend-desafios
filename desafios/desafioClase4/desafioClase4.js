@@ -1,3 +1,14 @@
+/*  
+
+Metodos
+- save(objet): number - Recibe un objeto, lo guarda en el archivo, devuelve el id asignado.
+- getById(number): objet - Recibe un id y devuelve el objeto con ese id o null si no esta
+- getAll(): objet[] - Devuelve un array con los objetos presentes en el archivo
+- deleteById(number): void - Elimina del archivo el objeto con el id buscado.
+- deleteAll(): void - Elimina todos los objetos presentes en el archivo
+
+*/
+
 const fs = require('fs');
 
 const productos = [                                                                                                                                                     
@@ -66,9 +77,7 @@ class Container{
             const contenido = await this.leer()
             const contenidoParseado = JSON.parse(contenido)
             
-            return contenidoParseado;
-
-            console.log(contenido)
+            return contenidoParseado[id-1];
 
         } catch(error) {
             throw new Error(error)
@@ -80,7 +89,7 @@ class Container{
 const main = async () => {
     //contenedorProductos.leerPorId(1)
 
-    console.log(await contenedorProductos.leerPorId(1))
+    console.log(await contenedorProductos.leerPorId(2))
 
 };
 
