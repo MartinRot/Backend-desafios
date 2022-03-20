@@ -43,8 +43,8 @@ class Container{
     //Metodo para escribir datos 
     async escribir(dato){
         try{
-            await fs.promises.writeFile(this.filename, dato)
-            console.log("Escrito correctamente")
+            const contenido = await fs.promises.writeFile(this.filename, dato)
+            return contenido;
         } catch (error) {
             console.log(error);
         }
@@ -77,27 +77,51 @@ class Container{
             const contenido = await this.leer()
             const contenidoParseado = JSON.parse(contenido)
             
-            return contenidoParseado[id-1];
+            const elemento = contenidoParseado.filter(e => e.id === id); 
 
+            console.log("Elemento con id numero " + id + " del array.")
+            return elemento;
+            
         } catch(error) {
             throw new Error(error)
         }
     }
+
+    //Metodo para eliminar un producto por su ID
+    async borrarPorId(id) {
+        try{
+
+            const contenido = await this.leer()
+            const contenidoParseado = JSON.parse(contenido)
+            
+            const elementos = contenidoParseado.filter(e => e.id !== id); 
+            console.log("Array sin el elemento " + id)
+
+            await this.escribir(JSON.stringify(elementos));
+            let contenidoNuevo = await this.leer()     
+
+            return contenidoNuevo;
+            
+        } catch(error) {
+            throw new Error(error)
+        }
+    }
+
 
 } 
 
 const main = async () => {
     //contenedorProductos.leerPorId(1)
 
-    console.log(await contenedorProductos.leerPorId(2))
+    //console.log(await contenedorProductos.leerPorId(2));
+    console.log(await contenedorProductos.borrarPorId(1));
 
 };
 
 
 let contenedor = new Container("./texto.txt") //Creo un nuevo contenedor 
 
-contenedor.escribir("Hola como estas?")  //Le agrego un string
-contenedor.borrar() //Borro el contenido de ese contenedor
+//contenedor.escribir("Hola como estas?")  //Le agrego un string
 const contenedorProductos = new Container("./productos.txt"); //Creo el nuevo contenedor 
 // contenedorProductos.escribir(JSON.stringify(productos)) //Le asigno los productos
 
