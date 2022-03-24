@@ -3,18 +3,18 @@
     Representar por consola los resultados.
  */
 
-console.log("HOALAS")
 console.log("Numero random " + Math.random()*10);
 
 /* ############################### */
 
-const random = require('random');
+//usamos la libreria 'random' -> npmjs.com/package/random
+const random = require('random'); 
 
 let numbers = new Map();
 
 for (let i = 0; i < 10000; i++){
 
-    let randomNum = random.int(1,2);
+    let randomNum = random.int(1,20);
 
     if(numbers.has(randomNum)){
         numbers.set(randomNum, numbers.get(randomNum)+1)
