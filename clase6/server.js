@@ -1,8 +1,14 @@
+//Iniciar servidor en Node -> node server.js
+//Iniciar servidor en Nodemon -> nodemon server.js
+
 const http = require('http')
-
+ 
 const getMensaje = () => {
-
     const hora = new Date().getHours()
+    const minutos = new Date().getMinutes()
+
+    console.log(hora)
+    console.log(minutos)
 
     if (hora >= 6 && hora <= 12){
         return 'Buenos dias!'
@@ -12,21 +18,20 @@ const getMensaje = () => {
         return 'Buenas noches!'
     }
 
+} 
 
-}
-
-
-
+//Creacion server
 const server = http.createServer((req, res) => {
-    res.end('Hola mundo!')
+    res.end(getMensaje());
 })
 
+//Puerto asignado
 const PORT = 8080;
 
+//Puerto escuchando
 const conectedServer = server.listen(PORT, () => {
 
-    console.log((` Servidor HTTP escuchando en el puerto ${connectedServer.adress} `))
-
+    console.log(`Servidor HTTP escuchando en el puerto ${conectedServer.address().port} `)
 
 })
 
