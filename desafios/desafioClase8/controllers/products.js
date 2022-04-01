@@ -28,12 +28,33 @@ export const addProduct = product => {
     products.push(product)
 }
 
-export const updateProduct = id => {
-    let producto = products.find(products => producto.id === id)
+export const updateProduct = (newProduct, id) => {
+
+    const producto = products.find((e) => e.id == id)
+    //console.log(producto)
+
+    if (producto){
+      producto.title = newProduct.title
+      producto.price = newProduct.price
+      producto.thumbnail = newProduct.thumbnail
+
+      products[id] = producto
+      console.log(products[id])
+
+    } else {
+      console.log('No se encontró el producto solicitado')
+    }
+
 }
 
 //
-export const deleteProduct = product => {
+export const deleteProduct = id => {
+
+    const producto = products.find((e) => e.id == id)
+    products.splice(id, 1)
+
+    //products[id] = []
+
     console.log('Producto eliminado')
 }
 

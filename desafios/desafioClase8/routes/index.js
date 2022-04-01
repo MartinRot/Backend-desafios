@@ -32,21 +32,22 @@ router.post('/productos', (req, res) => {
     res.send(product) 
 })
 
-
-
+//ok
 // Recibe y actualiza un producto según su id.
 router.put('/productos/:id', (req, res) => {
     
+    const newProduct = req.body
     let id = req.params.id
-    updateProduct(id)
+    updateProduct(newProduct, id)
+    res.send({ "message": 'Producto actualizado' })
     
 })
 
 // Elimina un producto según su id.
 router.delete('/productos/:id', (req, res) => {
-    let product = req.body
-    deleteProduct(product)
-    res.send({ "message": "Deleted", ...product })
+    let id = req.params.id
+    deleteProduct(id)
+    res.send({ "message": "Deleted"})
 })
 
 export default router;
