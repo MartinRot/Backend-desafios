@@ -42,6 +42,18 @@ routerPersonas.put('/modificar/:nombre', (req, res) => {
     let persona = personas.find(personas => persona.nombre === nom)
 })
 
+routerPersonas.put('/modificar/:id', (req, res) => {
+
+    let { nombre, nombreNuevo } = req.body
+    let idPersona = req.params.id
+    let persona = buscarPersona(idPersona)
+
+    if( persona.nombre === nombre ){ 
+        persona.nombre = nombreNuevo
+    }
+
+})
+
 /* --------------------------------------------------------------- */
 /* Server Listen */
 const PORT = 8080
