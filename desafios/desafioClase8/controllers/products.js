@@ -1,61 +1,95 @@
-const products = [
-    { "title": "Zapatillas Nike", "price": "7698", "thumbnail": "https://e7.pngegg.com/pngimages/820/94/png-clipart-shoe-nike-air-max-sneakers-running-running-shoes-orange-outdoor-shoe.png", "id": "1"},
-    { "title": "Zapatillas Adidas", "price": "9863", "thumbnail": "https://e7.pngegg.com/pngimages/820/94/png-clipart-shoe-nike-air-max-sneakers-running-running-shoes-orange-outdoor-shoe.png", "id": "2"},
-    { "title": "Zapatillas Puma", "price": "8530", "thumbnail": "https://e7.pngegg.com/pngimages/820/94/png-clipart-shoe-nike-air-max-sneakers-running-running-shoes-orange-outdoor-shoe.png", "id": "3"},
-]
+const fs = require('fs')
 
-//ok
-let productsPromise = new Promise ((resolve, reject) => {
-    setTimeout(function(){
-        resolve(products)
-    }, 250)
-})
+module.exports = class Container {
 
-//ok
-export const getProducts = () => {
-    return productsPromise
-}
+    constructor(file) {
 
-//ok
-export const getProduct = id => {
-    let product = products.find(products => products.id === id)    
-    return product
-}
+        this.save = (obj) => {
+            console.log(obj)
+            try {
+                const content = fs.readFileSync(file, 'utf-8')
+                if (!content) {
+                    const newId = 1
+                    const newObj = {
+                        ...obj,
+                        id: newId
+                    }
+                    const newFile = []
+                    newFile.push(newObj)
+                    fs.appendFisleSync(file, JSON.stringify(newFile))
+                    return newId
+                } else {
+                    const contentParsed = JSON.parse(content)
+                    const newId = Number(contentParsed[contentParsed.length - 1].id) + 1
+                    const newObj = {
+                        ...obj,
+                        id: newId
+                    }
+                    contentParsed.push(newObj)
+                    fs.writeFileSync(file, JSON.stringify(contentParsed))
+                    return `Id del producto agregado -> ${newId}`
+                }
+            } catch {
+                throw new Error('Error - No se pudo guardar el producto')
+            }
+        }
 
-//ok
-export const addProduct = product => {    
-    product = { ...product, id: products.length + 1 }
-    products.push(product)
-}
+        this.getProducts = async () => {
+            
+            try {                
+                const content = fs.readFileSync(file, 'utf-8')
+                return JSON.parse(content)              
+            } catch {
+                throw new Error('Error - Productos no encontrados')
+            }
+        }
 
-export const updateProduct = (newProduct, id) => {
+        this.getProduct = async (id) => {
+            try {
+                const content = fs.readFileSync(file, 'utf-8')
+                const parsed = JSON.parse(content)
+                const product = parsed.find((e) => e.id == id)
 
-    const producto = products.find((e) => e.id == id)
-    //console.log(producto)
+                return product
+            } catch {
+                throw new Error('Error - Producto no encontrado')
+            }
+        }
 
-    if (producto){
-      producto.title = newProduct.title
-      producto.price = newProduct.price
-      producto.thumbnail = newProduct.thumbnail
+        this.updateProduct = async (newProduct, id) => {
+            try {
+                const content = fs.readFileSync(file, 'utf-8')
+                const parsed = JSON.parse(content)
+                const product = parsed.find((e) => e.id == id)
 
-      products[id] = producto
-      console.log(products[id])
+                if (product) {
+                    product.title = newProduct.title
+                    product.price = newProduct.price
+                    product.thumbnail = newProduct.thumbnail
+                    fs.writeFileSync(file, JSON.stringify(parsed))
+                } else {
+                    console.log('No se encontró el producto')
+                }
+            } catch {
+                throw new Error('Error - Producto no encontrado')
+            }
+        }
 
-    } else {
-      console.log('No se encontró el producto solicitado')
+        this.deleteProduct = async (id) => {
+            try {
+                const content = fs.readFileSync(file, 'utf-8')
+                const parsed = JSON.parse(content)
+                const product = parsed.findIndex((e) => e.id == id)
+                if (product >= 0) {
+                    parsed.splice(product, 1)
+                    fs.writeFileSync(file, JSON.stringify(parsed))
+                    return `Producto id: ${id} eliminado`
+                } else {
+                    return 'No se encontró el producto'
+                }
+            } catch {
+                throw new Error('Error - Producto no encontrado')
+            }
+        }
     }
-
 }
-
-//
-export const deleteProduct = id => {
-
-    const producto = products.find((e) => e.id == id)
-    products.splice(id, 1)
-
-    //products[id] = []
-
-    console.log('Producto eliminado')
-}
-
-

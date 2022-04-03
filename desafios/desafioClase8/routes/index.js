@@ -1,53 +1,68 @@
-import { Router } from 'express'
-import { getProducts, getProduct, addProduct, updateProduct, deleteProduct } from '../controllers/products.js'
-const router = Router()
+const express = require('express')
+const bodyparser = require('body-parser')
 
-router.get('/', (req, res) => {
-    res.send('Ruta de prueba get')
+// Constrollers
+const Container = require('../controllers/products.js')
+const path = './controllers/products.txt'
+const products = new Container(path)
+
+// Routes
+const router = express.Router()
+router.use(bodyparser.json())
+module.exports = router
+
+router.use((req, res, next) => {//Middleware para modificar el metodo de envio del formulario update
+    if (req.originalUrl === '/api/productos/:id') {
+      if (req.method === 'POST') {
+        req.method = 'PUT'
+      }
+    }
+    next()
 })
 
-//OK
 // Devuelve todos los productos.
-router.get('/productos', async (req, res) => {
-    let products = await getProducts();
-    res.send(products)
+router.get('/api/productos', (req, res) => {
+    products.getProducts().then((result) => {
+        res.send(result)
+    })
 })
 
-//OK
 // Devuelve un producto según su id.
-router.get('/productos/:id', (req, res) => {
-    let id = req.params.id
-    let producto = getProduct(id)
-    res.send(producto)
+router.get('/api/productos/:id', (req, res) => {
+    const id = req.params.id
+    products.getProduct(Number(id)).then((result) => {
+      res.send(result)
+    })
+  })
 
-    //res.send({ id })
-})
-
-//ok
 // Recibe y agrega un producto, y lo devuelve con su id asignado.
-router.post('/productos', (req, res) => {  
-    let product = (req.body)
+router.post('/api/productos', (req, res) => {  
+    const product = req.body
     console.log(product)
-    addProduct(product)
-    res.send(product) 
+    const id = products.save(product)
+    res.json(id)
 })
 
-//ok
 // Recibe y actualiza un producto según su id.
-router.put('/productos/:id', (req, res) => {
-    
-    const newProduct = req.body
-    let id = req.params.id
-    updateProduct(newProduct, id)
-    res.send({ "message": 'Producto actualizado' })
-    
+router.put('/api/productos/:id', (req, res) => {    
+    const product = req.body
+    let id
+    console.log(`Hola ${id}`)
+    if (req.params.id==':id'){
+        id=req.body.id
+    }else{
+        id=req.params.id
+    }
+    products.updateProduct(product, id)
+    res.send({ obj: 'Producto actualizado!' })    
 })
 
 // Elimina un producto según su id.
-router.delete('/productos/:id', (req, res) => {
-    let id = req.params.id
-    deleteProduct(id)
-    res.send({ "message": "Deleted"})
+router.delete('/api/productos/:id', (req, res) => {
+    const id = req.params.id
+    products.deleteProduct(id).then((result) => {
+        res.send(result)
+    })
 })
 
-export default router;
+
