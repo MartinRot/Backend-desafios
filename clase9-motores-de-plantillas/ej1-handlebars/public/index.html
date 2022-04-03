@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <span></span> <!-- Para inyectar el resultado -->
+
+    <!-- Handlebar desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <script>
+        const template = Handlebars.compile('<h1>{{nombre}}</h1> <h2>{{apellido}}</h2>'); //genera la plantilla
+        const html = template ({ nombre: 'coder', apellido: 'house' }); //genera el html
+        document.querySelector('span').innerHTML = html; //inyecta el resultado a la vista
+    </script>
+</body>
+</html>
