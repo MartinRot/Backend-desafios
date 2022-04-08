@@ -19,19 +19,21 @@ app.set('view engine', 'ejs')
 app.post('/productos', (req, res) => {
     const product = req.body
 
-    console.log("aca guardar product")
-    console.log("Hola")
+    products.save(product)
+
+    console.log("Se guardo el producto")
 
     res.redirect('/')
 })
 
 app.get('/productos', (req, res) => {
-    const prod = products.getProducts()
+    const prods = products.getProducts()
     
-    console.log(prod)
+    //console.log(prods)
 
-    res.render("vista", {
-        productos: products,
+    res.render("view", {
+        productos: prods,
+        contador: 1
     })
 
 })
