@@ -22,7 +22,7 @@
  
         <% if(productos.length > 0){ %>
 
-        <table class="table">
+        <table class="table" style="max-width: 1000px; text-align: center;">
 
             <thead>
                 <tr>
@@ -40,7 +40,7 @@
                 <tr>
                     <th scope="row"><%= contador %></th>
                     <td><%= producto.name %></td>
-                    <td><%= producto.price %></td>
+                    <td>$<%= producto.price %></td>
                     <td><img width="100" src=<%= producto.thumbnail %> alt="Imagen miniatura"></td>
                 </tr>
 
@@ -49,11 +49,11 @@
             </tbody>
         </table>
 
-
-
         <% } else { %>
         <h2>No hay productos</h2>
         <% } %>
+        
+        <button class="btn btn-success" style="margin-top: 10px;"><a href="/" class="text-white">Volver</a></button>
  
     </div>
 

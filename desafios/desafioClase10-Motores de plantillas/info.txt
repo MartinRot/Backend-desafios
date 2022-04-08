@@ -1,0 +1,27 @@
+//Pug
+pros
+- Ss probable que sea mas legible y rapido de escribir si no tenes conocimientos html
+contra
+- Sensibilidad a espacios en blanco.
+- Al no se tan parecido a HTML siento que cuesta mas familiarizarse.
+
+//Handlebars
+pro
+- Tiene etiquetas de apertura y cierre
+- Es similar a HTML mezclado con JS
+
+contra
+- no permite ejecutar expresiones matemáticas en plantilla
+
+//Ejs
+pro
+- Usa metodos de js
+- Es similar a HTML mezclado con JS
+- Un solo view
+
+contra
+- muchos signos % y <> hacen que no sea tan facil de leer
+
+Conclusión: 
+ Si tengo que elegir creo que me inclinaria por Handlebars o Ejs ya que me parecen bastante similares por su sintaxis de HTML + JS embebido.
+ Sin dudas no usaria Pug. No le veo muchas ventajas, me parece confuso y no me gusta visualmente ya que las etiquetas de inicio y cierre te pueden dar cierto orden al codigo.

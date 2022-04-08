@@ -1,0 +1,25 @@
+extends layouts/main.pug
+
+block content
+    div
+        h2='Productos'
+        if (productos.length>0)
+            table(class="table" style="max-width: 1000px; text-align: center;")
+                thead
+                    tr
+                        th(scope="col")='#'
+                        th(scope="col")='Nombre'
+                        th(scope="col")='Precio'
+                        th(scope="col")='Imagen'
+                        each producto in productos 
+                            tr 
+                                td=contador
+                                td=producto.name 
+                                td=producto.price
+                                td 
+                                    img(width="100" src=producto.thumbnail alt="Imagen miniatura")
+        else 
+            h2='No hay productos'
+        button(class="btn btn-success" style="margin-top: 10px;")
+            a(href="/" class="text-white")='Volver'
+
